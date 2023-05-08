@@ -639,7 +639,7 @@ class TextClassificationModel:
         # model_to_save.save_pretrained(output_dir)
         # self.tokenizer.save_pretrained(output_dir)
         # torch.save(self.args, os.path.join(output_dir, "training_args.bin"))
-        if args.save_recent_only:
+        if self.args.save_recent_only:
             del_paths = glob.glob(os.path.join(output_dir, 'checkpoint-*'))
             for del_path in del_paths:
                 shutil.rmtree(del_path)
@@ -981,7 +981,7 @@ class TextClassificationModel:
 
                     if args.save_steps > 0 and global_step % args.save_steps == 0:
                         # Save model checkpoint
-                        if args.save_recent_only:
+                        if self.args.save_recent_only:
                             del_paths = glob.glob(os.path.join(output_dir, 'checkpoint-*'))
                             for del_path in del_paths:
                                 shutil.rmtree(del_path)
@@ -1006,7 +1006,7 @@ class TextClassificationModel:
                             **kwargs,
                         )
 
-                        if args.save_recent_only:
+                        if self.args.save_recent_only:
                             del_paths = glob.glob(os.path.join(output_dir, 'checkpoint-*'))
                             for del_path in del_paths:
                                 shutil.rmtree(del_path)
