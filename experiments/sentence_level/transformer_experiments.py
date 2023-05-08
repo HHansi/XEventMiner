@@ -13,8 +13,8 @@ from text_classification.text_classification_model import TextClassificationMode
 
 parser = argparse.ArgumentParser(
     description='''evaluates multiple models  ''')
-parser.add_argument('--model_name', required=False, help='model name', default="bert")
-parser.add_argument('--model_type', required=False, help='model type', default="bert-large-cased")
+parser.add_argument('--model_name', required=False, help='model name', default="bert-large-cased")
+parser.add_argument('--model_type', required=False, help='model type', default="bert")
 parser.add_argument('--language', required=False, help='language', default="en")
 parser.add_argument('--cuda_device', required=False, help='cuda device', default=0)
 
