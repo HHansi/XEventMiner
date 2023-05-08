@@ -7,7 +7,7 @@ import torch
 
 from sklearn.model_selection import train_test_split
 
-from XEventMiner.experiments.sentence_level.transformer_config import transformer_args, SEED
+from experiments.sentence_level.transformer_config import transformer_args, SEED
 from experiments.sentence_level.evaluation import macro_f1, weighted_f1, print_evaluation
 from text_classification.text_classification_model import TextClassificationModel
 
