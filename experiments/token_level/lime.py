@@ -104,3 +104,4 @@ predictions = clf.predict(np.array(test_data['explanations'].tolist()).reshape(-
 
 test_data["predictions"] = predictions
 print_information(test_data, "labels", "predictions")
+
