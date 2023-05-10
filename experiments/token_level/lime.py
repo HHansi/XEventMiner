@@ -29,9 +29,15 @@ cuda_device = int(arguments.cuda_device)
 
 RANDOM_STATE = 777
 
-df = pd.read_csv('../data/CASE2021/subtask4-token/without_duplicates/en-train.csv', encoding='utf-8')
+df = pd.read_csv('XEventMiner/experiments/data/CASE2021/subtask4-token/without_duplicates/en-train.csv', encoding='utf-8')
 train, test = train_test_split(df, test_size=0.8, random_state=RANDOM_STATE)
+print(f'train shape: {train.shape}')
+print(f'test shape: {test.shape}')
 
+train = train.head(10)
+test = test.head(2)
+print(f'train shape: {train.shape}')
+print(f'test shape: {test.shape}')
 
 def _tokenizer(text):
     return text.split()
@@ -49,6 +55,7 @@ explainer = LimeTextExplainer(split_expression=_tokenizer, class_names=[0, 1])
 
 train_sentence_id = 0
 train_token_df = []
+print(f'processing train set..')
 for index, row in train.iterrows():
     exp = explainer.explain_instance(row["tokens"], _predict_probabilities, num_features=200)
     explanations = exp.as_list()
@@ -73,6 +80,7 @@ train_data = pd.DataFrame(
 
 test_sentence_id = 0
 test_token_df = []
+print(f'processing test set..')
 for index, row in test.iterrows():
     exp = explainer.explain_instance(row["tokens"], _predict_probabilities, num_features=200)
     explanations = exp.as_list()
@@ -97,6 +105,7 @@ test_data = pd.DataFrame(test_token_df, columns=["sentence_id", "words", "labels
 X = np.array(train_data['explanations'].tolist()).reshape(-1, 1)
 Y = np.array(train_data['labels'].tolist())
 
+print(f'training SGDClassifier..')
 clf = make_pipeline(StandardScaler(),
                     SGDClassifier(max_iter=1000, tol=1e-3, class_weight="balanced", random_state=RANDOM_STATE))
 clf.fit(X, Y)
