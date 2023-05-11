@@ -41,9 +41,10 @@ model = transformers.AutoModelForSequenceClassification.from_pretrained(MODEL_NA
 # build a pipeline object to do predictions
 pred = transformers.pipeline("text-classification", model=model, tokenizer=tokenizer, device=cuda_device,
                              return_all_scores=True)
+pmodel = shap.models.TransformersPipeline(pred, rescale_to_logits=True)
 
 masker = shap.maskers.Text(tokenizer=r"\s+")
-explainer = shap.Explainer(pred, masker=masker)
+explainer = shap.Explainer(pmodel, masker=masker)
 
 train_sentence_id = 0
 train_token_df = []
