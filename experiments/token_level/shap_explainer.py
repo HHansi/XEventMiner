@@ -29,10 +29,10 @@ train, test = train_test_split(df, test_size=0.8, random_state=RANDOM_STATE)
 print(f'train shape: {train.shape}')
 print(f'test shape: {test.shape}')
 
-train = train.head(6)
-test = test.head(2)
-print(f'train shape: {train.shape}')
-print(f'test shape: {test.shape}')
+# train = train.head(6)
+# test = test.head(2)
+# print(f'train shape: {train.shape}')
+# print(f'test shape: {test.shape}')
 
 # load the model and tokenizer
 tokenizer = transformers.AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=True)
@@ -54,9 +54,9 @@ for index, row in train.iterrows():
     data_tokens = shap_values.data[0].tolist()
     explanation_values = shap_values[:, :, 1].values[0].tolist()
 
-    print(f'data length: {len(data_tokens)}, value length: {len(explanation_values)}')
+    # print(f'data length: {len(data_tokens)}, value length: {len(explanation_values)}')
     # print (token, value) pairs in value descending oder
-    print(sorted(tuple(zip(shap_values.data[0], shap_values[:, :, 1].values[0])), key=lambda x: x[1], reverse=True))
+    # print(sorted(tuple(zip(shap_values.data[0], shap_values[:, :, 1].values[0])), key=lambda x: x[1], reverse=True))
 
     tokens = ast.literal_eval(row["tokens"])
     labels = json.loads(row["rationales"])
@@ -80,9 +80,9 @@ for index, row in test.iterrows():
     data_tokens = shap_values.data[0].tolist()
     explanation_values = shap_values[:, :, 1].values[0].tolist()
 
-    print(f'data length: {len(data_tokens)}, value length: {len(explanation_values)}')
+    # print(f'data length: {len(data_tokens)}, value length: {len(explanation_values)}')
     # print (token, value) pairs in value descending oder
-    print(sorted(tuple(zip(shap_values.data[0], shap_values[:, :, 1].values[0])), key=lambda x: x[1], reverse=True))
+    # print(sorted(tuple(zip(shap_values.data[0], shap_values[:, :, 1].values[0])), key=lambda x: x[1], reverse=True))
 
     tokens = ast.literal_eval(row["tokens"])
     labels = json.loads(row["rationales"])
