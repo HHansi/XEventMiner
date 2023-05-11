@@ -29,6 +29,11 @@ train, test = train_test_split(df, test_size=0.8, random_state=RANDOM_STATE)
 print(f'train shape: {train.shape}')
 print(f'test shape: {test.shape}')
 
+train = train.head(6)
+test = test.head(2)
+print(f'train shape: {train.shape}')
+print(f'test shape: {test.shape}')
+
 # load the model and tokenizer
 tokenizer = transformers.AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=True)
 model = transformers.AutoModelForSequenceClassification.from_pretrained(MODEL_NAME).cuda()
@@ -39,29 +44,29 @@ pred = transformers.pipeline("text-classification", model=model, tokenizer=token
 
 masker = shap.maskers.Text(tokenizer=r"\s+")
 explainer = shap.Explainer(pred, masker=masker)
-shap_values = explainer(train["text"][:2])
-print(shap_values)
 
 train_sentence_id = 0
 train_token_df = []
 print(f'processing train set..')
 for index, row in train.iterrows():
-    shap_values = explainer(row["text"])
-    data_tokens = shap_values.data[0]
-    explanation_values = shap_values[:, :, 1].values[0]
+    shap_values = explainer([row["text"]])
+    data_tokens = shap_values.data[0].tolist()
+    explanation_values = shap_values[:, :, 1].values[0].tolist()
 
+    print(f'data length: {len(data_tokens)}, value length: {len(explanation_values)}')
     # print (token, value) pairs in value descending oder
     print(sorted(tuple(zip(shap_values.data[0], shap_values[:, :, 1].values[0])), key=lambda x: x[1], reverse=True))
 
     tokens = ast.literal_eval(row["tokens"])
     labels = json.loads(row["rationales"])
 
-    if data_tokens != tokens:
+    if [x.strip() for x in data_tokens] != tokens:
         print(f'index{index}: found mismatch in tokens.')
         continue
 
     for i in range(0, len(tokens)):
         processed_row = [train_sentence_id, tokens[i], labels[i], explanation_values[i]]
+        train_token_df.append(processed_row)
     train_sentence_id = train_sentence_id + 1
 
 train_data = pd.DataFrame(train_token_df, columns=["sentence_id", "words", "labels", "explanations"])
@@ -70,22 +75,24 @@ test_sentence_id = 0
 test_token_df = []
 print(f'processing test set..')
 for index, row in test.iterrows():
-    shap_values = explainer(row["text"])
-    data_tokens = shap_values.data[0]
-    explanation_values = shap_values[:, :, 1].values[0]
+    shap_values = explainer([row["text"]])
+    data_tokens = shap_values.data[0].tolist()
+    explanation_values = shap_values[:, :, 1].values[0].tolist()
 
+    print(f'data length: {len(data_tokens)}, value length: {len(explanation_values)}')
     # print (token, value) pairs in value descending oder
     print(sorted(tuple(zip(shap_values.data[0], shap_values[:, :, 1].values[0])), key=lambda x: x[1], reverse=True))
 
     tokens = ast.literal_eval(row["tokens"])
     labels = json.loads(row["rationales"])
 
-    if data_tokens != tokens:
+    if [x.strip() for x in data_tokens] != tokens:
         print(f'index{index}: found mismatch in tokens.')
         continue
 
     for i in range(0, len(tokens)):
         processed_row = [test_sentence_id, tokens[i], labels[i], explanation_values[i]]
+        test_token_df.append(processed_row)
     test_sentence_id = test_sentence_id + 1
 
 test_data = pd.DataFrame(test_token_df, columns=["sentence_id", "words", "labels", "explanations"])
