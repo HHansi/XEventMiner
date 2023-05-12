@@ -8,3 +8,4 @@ lime
 seqeval
 wandb
 shap
+eli5
