@@ -25,7 +25,7 @@ arguments = parser.parse_args()
 MODEL_NAME = arguments.model_name
 cuda_device = int(arguments.cuda_device)
 language = arguments.language
-output_folder = os.path.join(arguments.output_folder, MODEL_NAME.split('/')[1], language)
+output_folder = os.path.join(arguments.output_folder, 'shap', MODEL_NAME.split('/')[1], language)
 
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
