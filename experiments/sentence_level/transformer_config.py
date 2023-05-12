@@ -1,13 +1,13 @@
 from multiprocessing import cpu_count
 
-TEMP_DIRECTORY = "temp_LuxemBERT/"
+TEMP_DIRECTORY = "temp"
 SEED = 777
 
 
 transformer_args = {
-    'output_dir': 'temp_LuxemBERT/outputs/',
-    "best_model_dir": "temp_LuxemBERT/outputs/best_model",
-    'cache_dir': 'temp_LuxemBERT/cache_dir/',
+    'output_dir': 'temp/outputs/',
+    "best_model_dir": "temp/outputs/best_model",
+    'cache_dir': 'temp/cache_dir/',
 
     'fp16': False,
     'fp16_opt_level': 'O1',
@@ -17,23 +17,23 @@ transformer_args = {
     'eval_batch_size': 512,
     'num_train_epochs': 3,
     'weight_decay': 0,
-    'learning_rate': 1e-5,
+    'learning_rate': 1e-4,
     'adam_epsilon': 1e-8,
     'warmup_ratio': 0.06,
     'warmup_steps': 0,
     'max_grad_norm': 1.0,
     'do_lower_case': False,
-    'n_fold': 3,
+    'n_fold': 5,
 
-    'logging_steps': 200,
-    'save_steps': 200,
+    'logging_steps': 20,
+    'save_steps': 20,
     "no_cache": False,
     "no_save": False,
     "save_recent_only": True,
     'save_model_every_epoch': False,
     'evaluate_during_training': True,
     "evaluate_during_training_silent": True,
-    'evaluate_during_training_steps': 200,
+    'evaluate_during_training_steps': 20,
     "evaluate_during_training_verbose": True,
     'use_cached_eval_features': False,
     "save_best_model": True,
@@ -50,7 +50,7 @@ transformer_args = {
     "multiprocessing_chunksize": 500,
     'silent': False,
 
-    'wandb_project': "RTL-Offensive",
+    'wandb_project': "Xeventminer",
     'wandb_kwargs': {},
 
     "use_early_stopping": True,

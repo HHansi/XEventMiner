@@ -3,17 +3,18 @@ import argparse
 import pandas as pd
 import numpy as np
 import sklearn
+import torch
 
 from sklearn.model_selection import train_test_split
 
-from XEventMiner.experiments.sentence_level.transformer_config import transformer_args, SEED
+from experiments.sentence_level.transformer_config import transformer_args, SEED
 from experiments.sentence_level.evaluation import macro_f1, weighted_f1, print_evaluation
 from text_classification.text_classification_model import TextClassificationModel
 
 parser = argparse.ArgumentParser(
     description='''evaluates multiple models  ''')
-parser.add_argument('--model_name', required=False, help='model name', default="bert")
-parser.add_argument('--model_type', required=False, help='model type', default="bert-large-cased")
+parser.add_argument('--model_name', required=False, help='model name', default="bert-large-cased")
+parser.add_argument('--model_type', required=False, help='model type', default="bert")
 parser.add_argument('--language', required=False, help='language', default="en")
 parser.add_argument('--cuda_device', required=False, help='cuda device', default=0)
 
