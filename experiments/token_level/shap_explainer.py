@@ -27,6 +27,9 @@ cuda_device = int(arguments.cuda_device)
 language = arguments.language
 output_folder = arguments.output_folder
 
+if not os.path.exists(output_folder):
+    os.makedirs(output_folder)
+
 RANDOM_STATE = 777
 
 df = None
