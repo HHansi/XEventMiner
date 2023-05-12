@@ -49,9 +49,9 @@ df = None
 if language == "en":
     df = pd.read_csv('experiments/data/CASE2021/subtask4-token/without_duplicates/en-train.csv', encoding='utf-8')
 elif language == "es":
-    df = pd.read_csv('experiments/data/CASE2021/subtask4-token/without_duplicates/en-train.csv', encoding='utf-8')
+    df = pd.read_csv('experiments/data/CASE2021/subtask4-token/without_duplicates/es-train.csv', encoding='utf-8')
 elif language == "pr":
-    df = pd.read_csv('experiments/data/CASE2021/subtask4-token/without_duplicates/en-train.csv', encoding='utf-8')
+    df = pd.read_csv('experiments/data/CASE2021/subtask4-token/without_duplicates/pr-train.csv', encoding='utf-8')
 else:
     print('No valid language is given.')
 
