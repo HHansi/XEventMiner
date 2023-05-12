@@ -30,7 +30,7 @@ MODEL_TYPE = arguments.model_type
 MODEL_NAME = arguments.model_name
 cuda_device = int(arguments.cuda_device)
 language = arguments.language
-output_folder = arguments.output_folder
+output_folder = os.path.join(arguments.output_folder, MODEL_NAME.split('/')[1], language)
 
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
@@ -138,4 +138,7 @@ if df is not None:
 
     test_data["predictions"] = predictions
     print_information(test_data, "labels", "predictions")
+
+    train_data.to_csv(os.path.join(output_folder, 'train.csv'), index=False, encoding='utf-8')
+    test_data.to_csv(os.path.join(output_folder, 'test.csv'), index=False, encoding='utf-8')
 
