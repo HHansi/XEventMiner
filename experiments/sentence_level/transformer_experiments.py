@@ -25,37 +25,70 @@ MODEL_NAME = arguments.model_name
 cuda_device = int(arguments.cuda_device)
 language = arguments.language
 
-en_sentence_data = pd.read_json('experiments/data/CASE2021/subtask2-sentence/without_duplicates/en-train.json', lines=True)
+# en_sentence_data = pd.read_json('experiments/data/CASE2021/subtask2-sentence/without_duplicates/en-train.json', lines=True)
+# es_sentence_data = pd.read_json('experiments/data/CASE2021/subtask2-sentence/without_duplicates/es-train.json',
+#                                  lines=True)
+# pr_sentence_data = pd.read_json('experiments/data/CASE2021/subtask2-sentence/without_duplicates/pr-train.json',
+#                                  lines=True)
+
+en_sentence_data = pd.read_json('experiments/data/CASE2021/subtask2-sentence/without_duplicates/en-train.json',
+                                    lines=True)
+
+en_sentence_data = en_sentence_data.rename(columns={'sentence': 'text', 'label': 'labels'})
+en_sentence_data = en_sentence_data[['text', 'labels']]
+en_train, en_test_df = train_test_split(en_sentence_data, test_size=0.1, random_state=777)
+en_test_sentences = en_test_df['text'].tolist()
+
 es_sentence_data = pd.read_json('experiments/data/CASE2021/subtask2-sentence/without_duplicates/es-train.json',
-                                 lines=True)
+                                    lines=True)
+es_sentence_data = es_sentence_data.rename(columns={'sentence': 'text', 'label': 'labels'})
+es_sentence_data = es_sentence_data[['text', 'labels']]
+es_train, es_test_df = train_test_split(es_sentence_data, test_size=0.1, random_state=777)
+es_test_sentences = es_test_df['text'].tolist()
+
+
 pr_sentence_data = pd.read_json('experiments/data/CASE2021/subtask2-sentence/without_duplicates/pr-train.json',
                                  lines=True)
+pr_sentence_data = pr_sentence_data.rename(columns={'sentence': 'text', 'label': 'labels'})
+pr_sentence_data = pr_sentence_data[['text', 'labels']]
+pr_train, pr_test_df = train_test_split(pr_sentence_data, test_size=0.1, random_state=777)
+pr_test_sentences = pr_test_df['text'].tolist()
 
-if language == "en":
-    sentence_data = en_sentence_data
-elif language == "es":
-    sentence_data = es_sentence_data
-elif language == "pr":
-    sentence_data = pr_sentence_data
+# sentence_data = sentence_data.rename(columns={'sentence': 'text', 'label': 'labels'})
+# sentence_data = sentence_data[['text', 'labels']]
 
-sentence_data = sentence_data.rename(columns={'sentence': 'text', 'label': 'labels'})
-sentence_data = sentence_data[['text', 'labels']]
+# train, test_df = train_test_split(sentence_data, test_size=0.1, random_state=777)
 
-train, test_df = train_test_split(sentence_data, test_size=0.1, random_state=777)
-
-test_sentences = test_df['text'].tolist()
+# test_sentences = test_df['text'].tolist()
 
 model = TextClassificationModel(MODEL_TYPE, MODEL_NAME, args=transformer_args,
                                 use_cuda=torch.cuda.is_available())
 
+frames = [en_train, es_train, pr_train]
+train = pd.concat(frames)
+
+
 train_df, eval_df = train_test_split(train, test_size=0.1, random_state=SEED)
 model.train_model(train_df, eval_df=eval_df, macro_f1=macro_f1, weighted_f1=weighted_f1,
                       accuracy=sklearn.metrics.accuracy_score)
-predictions, raw_outputs = model.predict(test_sentences)
-test_df["predictions"] = predictions
 
-print_evaluation(test_df, "predictions", "labels")
-test_df.to_csv("results_BERT.tsv", sep='\t', encoding='utf-8', index=False)
+print("English")
+predictions, raw_outputs = model.predict(en_test_sentences)
+en_test_df["predictions"] = predictions
+print_evaluation(en_test_df, "predictions", "labels")
+en_test_df.to_csv("en_results_mBERT.tsv", sep='\t', encoding='utf-8', index=False)
+
+print("Spanish")
+predictions, raw_outputs = model.predict(es_test_sentences)
+es_test_df["predictions"] = predictions
+print_evaluation(es_test_df, "predictions", "labels")
+es_test_df.to_csv("es_results_mBERT.tsv", sep='\t', encoding='utf-8', index=False)
+
+print("Portuguese")
+predictions, raw_outputs = model.predict(pr_test_sentences)
+pr_test_df["predictions"] = predictions
+print_evaluation(pr_test_df, "predictions", "labels")
+pr_test_df.to_csv("pr_results_mBERT.tsv", sep='\t', encoding='utf-8', index=False)
 
 
 

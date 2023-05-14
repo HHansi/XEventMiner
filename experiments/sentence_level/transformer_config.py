@@ -1,13 +1,13 @@
 from multiprocessing import cpu_count
 
-TEMP_DIRECTORY = "temp"
+TEMP_DIRECTORY = "temp_mbert"
 SEED = 777
 
 
 transformer_args = {
-    'output_dir': 'temp/outputs/',
-    "best_model_dir": "temp/outputs/best_model",
-    'cache_dir': 'temp/cache_dir/',
+    'output_dir': 'temp_mbert/outputs/',
+    "best_model_dir": "temp_mbert/outputs/best_model",
+    'cache_dir': 'temp_mbert/cache_dir/',
 
     'fp16': False,
     'fp16_opt_level': 'O1',
@@ -25,15 +25,15 @@ transformer_args = {
     'do_lower_case': False,
     'n_fold': 5,
 
-    'logging_steps': 20,
-    'save_steps': 20,
+    'logging_steps': 200,
+    'save_steps': 200,
     "no_cache": False,
     "no_save": False,
     "save_recent_only": True,
     'save_model_every_epoch': False,
     'evaluate_during_training': True,
     "evaluate_during_training_silent": True,
-    'evaluate_during_training_steps': 20,
+    'evaluate_during_training_steps': 200,
     "evaluate_during_training_verbose": True,
     'use_cached_eval_features': False,
     "save_best_model": True,
