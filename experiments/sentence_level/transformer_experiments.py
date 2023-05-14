@@ -76,19 +76,19 @@ print("English")
 predictions, raw_outputs = model.predict(en_test_sentences)
 en_test_df["predictions"] = predictions
 print_evaluation(en_test_df, "predictions", "labels")
-en_test_df.to_csv("en_results_mBERT-en-pr.tsv", sep='\t', encoding='utf-8', index=False)
+en_test_df.to_csv("en_results_xlmr-en-pr.tsv", sep='\t', encoding='utf-8', index=False)
 
 print("Spanish")
 predictions, raw_outputs = model.predict(es_test_sentences)
 es_test_df["predictions"] = predictions
 print_evaluation(es_test_df, "predictions", "labels")
-es_test_df.to_csv("es_results_mBERT-en-pr.tsv", sep='\t', encoding='utf-8', index=False)
+es_test_df.to_csv("es_results_xlmr-en-pr.tsv", sep='\t', encoding='utf-8', index=False)
 
 print("Portuguese")
 predictions, raw_outputs = model.predict(pr_test_sentences)
 pr_test_df["predictions"] = predictions
 print_evaluation(pr_test_df, "predictions", "labels")
-pr_test_df.to_csv("pr_results_mBERT-en-pr.tsv", sep='\t', encoding='utf-8', index=False)
+pr_test_df.to_csv("pr_results_xlmr-en-pr.tsv", sep='\t', encoding='utf-8', index=False)
 
 
 
