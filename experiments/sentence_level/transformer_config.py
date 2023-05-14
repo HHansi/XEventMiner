@@ -17,7 +17,7 @@ transformer_args = {
     'eval_batch_size': 512,
     'num_train_epochs': 3,
     'weight_decay': 0,
-    'learning_rate': 1e-4,
+    'learning_rate': 1e-5,
     'adam_epsilon': 1e-8,
     'warmup_ratio': 0.06,
     'warmup_steps': 0,
