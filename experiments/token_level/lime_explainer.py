@@ -137,7 +137,7 @@ if df is not None:
     predictions = clf.predict(np.array(test_data['explanations'].tolist()).reshape(-1, 1))
 
     test_data["predictions"] = predictions
-    print_information(test_data, "labels", "predictions")
+    print_information(test_data, "predictions", "labels")
 
     train_data.to_csv(os.path.join(output_folder, 'train.csv'), index=False, encoding='utf-8')
     test_data.to_csv(os.path.join(output_folder, 'test.csv'), index=False, encoding='utf-8')
