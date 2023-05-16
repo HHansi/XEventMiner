@@ -64,7 +64,7 @@ pr_test_sentences = pr_test_df['text'].tolist()
 model = TextClassificationModel(MODEL_TYPE, MODEL_NAME, args=transformer_args,
                                 use_cuda=torch.cuda.is_available())
 
-frames = [en_train, es_train, pr_train]
+frames = [es_train]
 train = pd.concat(frames)
 
 
@@ -76,19 +76,19 @@ print("English")
 predictions, raw_outputs = model.predict(en_test_sentences)
 en_test_df["predictions"] = predictions
 print_evaluation(en_test_df, "predictions", "labels")
-en_test_df.to_csv("en_results_xlmr-all.tsv", sep='\t', encoding='utf-8', index=False)
+en_test_df.to_csv("en_results_mbert-es.tsv", sep='\t', encoding='utf-8', index=False)
 
 print("Spanish")
 predictions, raw_outputs = model.predict(es_test_sentences)
 es_test_df["predictions"] = predictions
 print_evaluation(es_test_df, "predictions", "labels")
-es_test_df.to_csv("es_results_xlmr-all.tsv", sep='\t', encoding='utf-8', index=False)
+es_test_df.to_csv("es_results_mbert-es.tsv", sep='\t', encoding='utf-8', index=False)
 
 print("Portuguese")
 predictions, raw_outputs = model.predict(pr_test_sentences)
 pr_test_df["predictions"] = predictions
 print_evaluation(pr_test_df, "predictions", "labels")
-pr_test_df.to_csv("pr_results_xlmr-all.tsv", sep='\t', encoding='utf-8', index=False)
+pr_test_df.to_csv("pr_results_mbert-es.tsv", sep='\t', encoding='utf-8', index=False)
 
 
 
