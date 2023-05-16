@@ -64,7 +64,7 @@ pr_test_sentences = pr_test_df['text'].tolist()
 model = TextClassificationModel(MODEL_TYPE, MODEL_NAME, args=transformer_args,
                                 use_cuda=torch.cuda.is_available())
 
-frames = [es_train]
+frames = [pr_train]
 train = pd.concat(frames)
 
 
